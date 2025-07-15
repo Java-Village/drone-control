@@ -13,7 +13,7 @@ HEIGHT = 480
 CHUNK_SIZE = 4096
 
 WEIGHTS_PATH = "./weights/yolo_nano_solar_panel.pt"
-DEST_DIR = "/home/aicps/images"
+DEST_DIR = "/home/aicps//tcp_server/images"
 
 class ImageServerProtocol:
     def __init__(self):
@@ -41,10 +41,12 @@ class ImageServerProtocol:
         return image_array
 
     def process_image(self, image_array):
-        # TODO: save yolo results
         model = YOLO(WEIGHTS_PATH)
-        results = model(image_array)
+        results = model.predict(image_array, imgsz=(HEIGHT, WIDTH))
         results[0].show()
+        timestamp = dt.datetime.now().strftime("%Y%m%d%H%M%S_%f")
+        image_path = os.path.join(DEST_DIR, f"{timestamp}_pred.jpg")
+        results[0].save(filename=image_path)
 
     def receive_images(self):
 
