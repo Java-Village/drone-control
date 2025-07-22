@@ -6,8 +6,20 @@ import sys
 import socket
 import argparse
 import subprocess
+import time
+import math
 
 from struct import pack
+
+DRONE_ID = 1
+FOV_H = 62.0
+FOV_V = 56.0
+
+def get_position():
+    return (0.0, 0.0)
+
+def get_altitude():
+    return 4.0
 
 def capture_image(output_path: str) -> 'np.ndarray':
     # Remove previous file if it exists
@@ -27,6 +39,12 @@ def capture_image(output_path: str) -> 'np.ndarray':
         print("[ERR] libcamera-still failed", file=sys.stderr)
         sys.exit(1)
 
+    # Get metadata right after picture is taken
+    location = get_position()
+    altitude = get_altitude()
+    epoch_seconds = math.floor(time.time())
+    metadata = pack('>IdddddQ', DRONE_ID, location[0], location[1], altitude, FOV_H, FOV_V, epoch_seconds)
+
     # Load image using OpenCV
     img = cv2.imread(output_path)
     if img is None:
@@ -35,9 +53,9 @@ def capture_image(output_path: str) -> 'np.ndarray':
 
     print(f"[INFO] Image captured and loaded: {output_path}")
     print(img.shape)
-    return img
+    return img, metadata
 
-def send_image_over_tcp(image: 'np.ndarray', server_ip: str, server_port: int):
+def send_image_over_tcp(image: 'np.ndarray', metadata: bytes, server_ip: str, server_port: int):
     # Create TCP socket and send data
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = (server_ip, server_port)
@@ -49,6 +67,7 @@ def send_image_over_tcp(image: 'np.ndarray', server_ip: str, server_port: int):
     try:
         sock.connect(server_address)
 	# send image data
+	    sock.sendall(metadata)
         sock.sendall(length)
         sock.sendall(data)
     except Exception as e:
@@ -72,6 +91,6 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    image = capture_image(args.output)
-    send_image_over_tcp(image, args.host, args.port)
+    image, metadata = capture_image(args.output)
+    send_image_over_tcp(image, metadata, args.host, args.port)
 

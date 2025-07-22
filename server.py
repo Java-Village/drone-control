@@ -36,8 +36,7 @@ class ImageServerProtocol:
         self.socket.close()
         self.socket = None
 
-    def process_image(self, image_bytes: bytes):
-        # TODO: accept and separate metadata from image data
+    def process_image(self, image_bytes: bytes, metadata: bytes):
         image_array = np.frombuffer(image_bytes, dtype=np.uint8)
         image_array = image_array.reshape((HEIGHT, WIDTH, 3))
         print(image_array.shape)
@@ -52,15 +51,25 @@ class ImageServerProtocol:
 
         # add metadata to message
         # subject to change as metadata is accepted from drone
-        update.drone_id = 1
+        (drone_id, lat, lon, alt, fov_h, fov_v, epoch_sec,) = unpack(">IdddddQ", metadata)
+        update.drone_id = drone_id
         pos = drone_pb2.LatLng()
-        pos.Latitude = 0
-        pos.Longitude = 0
+        pos.Latitude = lat
+        pos.Longitude = lon
         update.position = pos
-        update.altitude = 4
-        update.fov_h = 120
-        update.fov_v = 120
-        update.message_time = Timestamp().GetCurrentTime()
+        update.altitude = alt
+        update.fov_h = fov_h
+        update.fov_v = fov_v
+        update.message_time = dt.datetime.fromtimestamp(epoch_sec)
+        # update.drone_id = 1
+        # pos = drone_pb2.LatLng()
+        # pos.Latitude = 0
+        # pos.Longitude = 0
+        # update.position = pos
+        # update.altitude = 4
+        # update.fov_h = 65
+        # update.fov_v = 52
+        # update.message_time = Timestamp().GetCurrentTime()
 
         # add bounding boxes to message
         for xywh, label in zip(boxes.xywh, boxes.cls):
@@ -102,9 +111,10 @@ class ImageServerProtocol:
                 try:
                     bs = connection.recv(8)
                     (length,) = unpack(">Q", bs)
+                 
+                    metadata = connection.recv(52)
+                    
                     data = b""
-                    print(length)
-
                     while len(data) < length:
                         left = length - len(data)
                         data += connection.recv(
@@ -113,8 +123,7 @@ class ImageServerProtocol:
 
                     connection.sendall(b"\00")
 
-                    # TODO: process metadata
-                    self.process_image(data)
+                    self.process_image(data, metadata)
 
                 finally:
                     connection.close()
