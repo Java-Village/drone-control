@@ -16,12 +16,14 @@ FOV_H = 62.0
 FOV_V = 56.0
 
 def get_position():
+    # TODO: read GPS (?)
     return (0.0, 0.0)
 
 def get_altitude():
+    # TODO: read time-of-flight altimeter
     return 4.0
 
-def capture_image(output_path: str) -> 'np.ndarray':
+def capture_image(output_path: str):
     # Remove previous file if it exists
     if os.path.exists(output_path):
         os.remove(output_path)
@@ -55,6 +57,23 @@ def capture_image(output_path: str) -> 'np.ndarray':
     print(img.shape)
     return img, metadata
 
+def capture_test_image(image_path: str):
+    # Get metadata right after picture is taken
+    location = get_position()
+    altitude = get_altitude()
+    epoch_seconds = math.floor(time.time())
+    metadata = pack('>IdddddQ', DRONE_ID, location[0], location[1], altitude, FOV_H, FOV_V, epoch_seconds)
+
+    # Load image using OpenCV
+    img = cv2.imread(image_path)
+    if img is None:
+        print("[ERR] Failed to load image with OpenCV", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"[INFO] Image captured and loaded: {image_path}")
+    print(img.shape)
+    return img, metadata
+
 def send_image_over_tcp(image: 'np.ndarray', metadata: bytes, server_ip: str, server_port: int):
     # Create TCP socket and send data
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -66,8 +85,8 @@ def send_image_over_tcp(image: 'np.ndarray', metadata: bytes, server_ip: str, se
     print(f"[INFO] Connecting to {server_ip}:{server_port}")
     try:
         sock.connect(server_address)
-	# send image data
-	    sock.sendall(metadata)
+        # send image data
+        sock.sendall(metadata)
         sock.sendall(length)
         sock.sendall(data)
     except Exception as e:
@@ -91,6 +110,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    image, metadata = capture_image(args.output)
+    # image, metadata = capture_image(args.output)
+    image, metadata = capture_image("./panels_on_grass_640_480.jpg")
     send_image_over_tcp(image, metadata, args.host, args.port)
 
