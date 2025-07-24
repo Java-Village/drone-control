@@ -57,7 +57,7 @@ def capture_image(output_path: str):
     print(img.shape)
     return img, metadata
 
-def capture_test_image(image_path: str):
+def load_test_image(image_path: str):
     # Get metadata right after picture is taken
     location = get_position()
     altitude = get_altitude()
@@ -111,6 +111,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # image, metadata = capture_image(args.output)
-    image, metadata = capture_image("./panels_on_grass_640_480.jpg")
+    image, metadata = load_test_image("./clean_panels.jpg")
     send_image_over_tcp(image, metadata, args.host, args.port)
 
