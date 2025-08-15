@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14messages/drone.proto\x12\x08messages\x1a\x1fgoogle/protobuf/timestamp.proto\"-\n\x06LatLng\x12\x11\n\tlongitude\x18\x01 \x01(\x01\x12\x10\n\x08latitude\x18\x02 \x01(\x01\"\x9b\x02\n\x0b\x44roneStatus\x12\x10\n\x08\x64rone_id\x18\x01 \x01(\r\x12\"\n\x08position\x18\x02 \x01(\x0b\x32\x10.messages.LatLng\x12\x30\n\x0cmessage_time\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0f\n\x07heading\x18\x04 \x01(\x01\x12\x0f\n\x07\x62\x61ttery\x18\x05 \x01(\x02\x12\x31\n\x12\x64\x65stination_latlng\x18\x06 \x01(\x0b\x32\x10.messages.LatLngH\x00\x88\x01\x01\x12 \n\x13\x64\x65stination_cluster\x18\x07 \x01(\rH\x01\x88\x01\x01\x42\x15\n\x13_destination_latlngB\x16\n\x14_destination_cluster\"\xd5\x02\n\rPictureUpdate\x12\x10\n\x08\x64rone_id\x18\x01 \x01(\r\x12\"\n\x08position\x18\x02 \x01(\x0b\x32\x10.messages.LatLng\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\r\n\x05\x66ov_h\x18\x04 \x01(\x01\x12\r\n\x05\x66ov_v\x18\x05 \x01(\x01\x12\x30\n\x0cmessage_time\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x32\n\x05\x62oxes\x18\x07 \x03(\x0b\x32#.messages.PictureUpdate.BoundingBox\x12\r\n\x05width\x18\x08 \x01(\r\x12\x0e\n\x06height\x18\t \x01(\r\x12\r\n\x05image\x18\n \x01(\x0c\x1aJ\n\x0b\x42oundingBox\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.messages.PanelStatus\x12\t\n\x01x\x18\x02 \x01(\r\x12\t\n\x01y\x18\x03 \x01(\r\"\xd6\x01\n\x11PanelStatusUpdate\x12\x10\n\x08\x64rone_id\x18\x01 \x01(\r\x12\x12\n\ncluster_id\x18\x02 \x01(\r\x12\x10\n\x08panel_id\x18\x03 \x01(\r\x12\x30\n\x0cmessage_time\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12)\n\nnew_status\x18\x05 \x01(\x0e\x32\x15.messages.PanelStatus\x12\r\n\x05width\x18\x06 \x01(\r\x12\x0e\n\x06height\x18\x07 \x01(\r\x12\r\n\x05image\x18\x08 \x01(\x0c*_\n\x0bPanelStatus\x12\x16\n\x12STATUS_UNSPECIFIED\x10\x00\x12\x12\n\x0eSTATUS_HEALTHY\x10\x01\x12\x10\n\x0cSTATUS_DIRTY\x10\x02\x12\x12\n\x0eSTATUS_CRACKED\x10\x03\x42\x1eZ\x1c\x63oordination-server/messagesb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14messages/drone.proto\x12\x08messages\x1a\x1fgoogle/protobuf/timestamp.proto\"-\n\x06LatLng\x12\x11\n\tlongitude\x18\x01 \x01(\x01\x12\x10\n\x08latitude\x18\x02 \x01(\x01\"\x9b\x02\n\x0b\x44roneStatus\x12\x10\n\x08\x64rone_id\x18\x01 \x01(\r\x12\"\n\x08position\x18\x02 \x01(\x0b\x32\x10.messages.LatLng\x12\x30\n\x0cmessage_time\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0f\n\x07heading\x18\x04 \x01(\x01\x12\x0f\n\x07\x62\x61ttery\x18\x05 \x01(\x02\x12\x31\n\x12\x64\x65stination_latlng\x18\x06 \x01(\x0b\x32\x10.messages.LatLngH\x00\x88\x01\x01\x12 \n\x13\x64\x65stination_cluster\x18\x07 \x01(\rH\x01\x88\x01\x01\x42\x15\n\x13_destination_latlngB\x16\n\x14_destination_cluster\"\xd5\x02\n\rPictureUpdate\x12\x10\n\x08\x64rone_id\x18\x01 \x01(\r\x12\"\n\x08position\x18\x02 \x01(\x0b\x32\x10.messages.LatLng\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\r\n\x05\x66ov_h\x18\x04 \x01(\x01\x12\r\n\x05\x66ov_v\x18\x05 \x01(\x01\x12\x30\n\x0cmessage_time\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x32\n\x05\x62oxes\x18\x07 \x03(\x0b\x32#.messages.PictureUpdate.BoundingBox\x12\r\n\x05width\x18\x08 \x01(\r\x12\x0e\n\x06height\x18\t \x01(\r\x12\r\n\x05image\x18\n \x01(\x0c\x1aJ\n\x0b\x42oundingBox\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.messages.PanelStatus\x12\t\n\x01x\x18\x02 \x01(\r\x12\t\n\x01y\x18\x03 \x01(\r*_\n\x0bPanelStatus\x12\x16\n\x12STATUS_UNSPECIFIED\x10\x00\x12\x12\n\x0eSTATUS_HEALTHY\x10\x01\x12\x10\n\x0cSTATUS_DIRTY\x10\x02\x12\x12\n\x0eSTATUS_CRACKED\x10\x03\x42\x1eZ\x1c\x63oordination-server/messagesb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,8 +33,8 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'messages.drone_pb2', _globa
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z\034coordination-server/messages'
-  _globals['_PANELSTATUS']._serialized_start=961
-  _globals['_PANELSTATUS']._serialized_end=1056
+  _globals['_PANELSTATUS']._serialized_start=744
+  _globals['_PANELSTATUS']._serialized_end=839
   _globals['_LATLNG']._serialized_start=67
   _globals['_LATLNG']._serialized_end=112
   _globals['_DRONESTATUS']._serialized_start=115
@@ -43,6 +43,4 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_PICTUREUPDATE']._serialized_end=742
   _globals['_PICTUREUPDATE_BOUNDINGBOX']._serialized_start=668
   _globals['_PICTUREUPDATE_BOUNDINGBOX']._serialized_end=742
-  _globals['_PANELSTATUSUPDATE']._serialized_start=745
-  _globals['_PANELSTATUSUPDATE']._serialized_end=959
 # @@protoc_insertion_point(module_scope)
