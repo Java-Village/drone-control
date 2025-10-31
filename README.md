@@ -1,5 +1,8 @@
 # Drone code
-- Right now, this is just a Python script that takes a picture and sends it to the Jetson for further processing.
+## Setup
+- This is intended to run on a Clover COEX drone.
+- You will need to adjust the camera launch file so the camera topic is properly sized (width of 640, height of 480).
+- You will need to adjust the rangefinder setup.
 
 ## Common Issues
 ### RPi Networking
@@ -9,6 +12,8 @@
   - try the solution described in [this answer](https://raspberrypi.stackexchange.com/a/140524).
 
 ## Tasks
-- Turn this into a proper ROS node and workspace
-- Test the image script
-- Make the socket handling more robust
+- ~Turn this into a proper ROS node and workspace~
+- ~Test the image script~
+- Make the socket handling more robust.
+  - (it only sends one image before breaking right now...)
+- More detail on rangefinder setup.
