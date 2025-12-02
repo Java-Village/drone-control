@@ -1,5 +1,8 @@
 # Drone code
-- Right now, this is just a Python script that takes a picture and sends it to the Jetson for further processing.
+## Setup
+- This is intended to run on a Clover COEX drone.
+- You will need to adjust the camera launch file so the camera topic is properly sized (width of 640, height of 480).
+- You will need to adjust the rangefinder setup.
 
 ## Usage
 - Make sure you're connected to the `jetnet` network.
@@ -22,3 +25,4 @@
 - ~Turn this into a proper ROS node and workspace~
 - ~Test the image script~
 - Make the socket handling more robust
+- More detail on rangefinder setup.
