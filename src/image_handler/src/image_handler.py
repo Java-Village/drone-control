@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
-
-import cv2
-import os
-import sys
 import socket
-import argparse
-import subprocess
 import time
 import math
 import rospy
+import requests
 
 from sensor_msgs.msg import Image
 
@@ -24,6 +19,7 @@ RATE = 30 # Hz
 CLOVER_RAW_IMG_TOPIC = "/main_camera/image_raw"
 JETSON_PORT = 4567
 JETSON_IP = "10.42.0.1"
+BACKEND_API = "10.42.0.111:4181/api/drones"
 
 class DroneImageNode:
     def __init__(self, address, port):
@@ -48,6 +44,8 @@ class DroneImageNode:
         self.incoming_socket.setblocking(False)
         self.incoming_socket.bind(self.incoming_address)
 
+        self.current_task = None
+
     def end(self):
         self.outgoing_socket.close()
         self.incoming_socket.close()
@@ -59,7 +57,7 @@ class DroneImageNode:
 
     def get_altitude(self):
         # TODO: read time-of-flight altimeter
-        return 4.0
+        return 1.8 # meters ... ?
 
     def capture_image(self):
         image = rospy.wait_for_message(CLOVER_RAW_IMG_TOPIC, Image)
@@ -92,26 +90,24 @@ class DroneImageNode:
             rospy.logerr(f"[ERR] {e}")
 
     def run(self):
-        ticks = 0
         while not rospy.is_shutdown():
             # try:
                 # data, address = self.incoming_socket.recvfrom(RECV_MAX_SIZE)
-            if ticks == 15:
-                # if data.decode('UTF-8') == "STOP ":
-                # acknowledge packet
-                rospy.loginfo("got packet from ksw")
-                # incoming_socket.sendto("ACK".encode('utf-8'), address)
+            # if data.decode('UTF-8') == "STOP ":
+            input()
+            # acknowledge packet
+            rospy.loginfo("got packet from ksw")
+            # incoming_socket.sendto("ACK".encode('utf-8'), address)
 
-                # capture image
-                rospy.loginfo("capturing image")
-                image, metadata = self.capture_image()
+            # capture image
+            rospy.loginfo("capturing image")
+            image, metadata = self.capture_image()
 
-                # send image
-                rospy.loginfo("sending image over TCP")
-                self.send_image_over_tcp(image, metadata, self.outgoing_socket)
-                ticks = 0
+            # send image
+            rospy.loginfo("sending image over TCP")
+            self.send_image_over_tcp(image, metadata, self.outgoing_socket)
+
             self.rate.sleep()
-            ticks += 1
 
             # except socket.error as e:
                 # if e.errno == socket.errno.EAGAIN or e.errno == socket.errno.EWOULDBLOCK:
